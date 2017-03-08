@@ -1,0 +1,325 @@
+]0;nat_query_301016-103322.hql_sjRun_Query.py Version 2.0
+
+Applying Hive load offset of 14400 secs.
+Starting new job
+Query's priority: VERY_HIGH
+-- Query file name nat_query_301016-103322.hql 
+ 
+SELECT
+    t1.ip as ip,
+    t2.ACCOUNTNAME AS account_name,
+    t3.SUBVERTICAL AS subvertical,
+    t1.UA AS ua,
+    t1.TOTAL AS total,
+    t1.company as company,
+    t1.country as country,
+    t1.domain as domain,
+    t1.network_type as network_type,
+    t1.asnum as asnum
+   FROM
+     (SELECT b2s(ip) as ip,
+             getED(ip, 'company') as company,
+             getED(ip, 'country') as country,
+             getED(ip, 'domain') as domain,
+             getED(ip, 'network_type') as network_type,
+             getED(ip, 'asnum') as asnum,
+             cpcode AS CPCODE,
+             user_agent AS UA,
+             sum(total_counter) AS TOTAL
+      FROM ddc_nat
+      WHERE b2s(ip) in ('208.53.101.233')
+        AND ts>='1477715603000' AND ts<'1477802003000'
+      GROUP BY b2s(ip), getED(ip, 'company'),
+               getED(ip, 'country'),
+               getED(ip, 'domain'),
+               getED(ip, 'network_type'),
+               getED(ip, 'asnum'), Cpcode,
+               user_agent) t1
+   LEFT OUTER JOIN
+     (SELECT DISTINCT cpcode AS CPCODE,
+                      account_name AS ACCOUNTNAME,
+                      account AS ACCOUNTID
+      FROM cpcode_metadata
+      WHERE ts>='1477715603000' AND ts<'1477802003000') t2 ON (t1.CPCODE = t2.CPCODE)
+   LEFT OUTER JOIN
+     (SELECT DISTINCT account_id AS ACCOUNTID,
+                      vertical AS VERTICAL,
+                      subvertical AS SUBVERTICAL
+      FROM account_industries
+      WHERE ts>='1477715603000' AND ts<'1477802003000') t3 ON (t2.ACCOUNTID = t3.ACCOUNTID)
+   WHERE (t3.SUBVERTICAL IN ('Logistics',
+                             'Advertising Technology',
+                             'Enterprise Software (B2B)',
+                             'Enterprise Hardware',
+                             'Asset Management',
+                             'Business Services',
+                             'BPO',
+                             'Information Services',
+                             'Security Software')
+          OR t3.VERTICAL IN ('Software as a Service','Business Services'))
+    ORDER BY ip
+
+nat_query_301016-103322.hql
+Running query on: 104.100.166.2
+Log level REMOTE_STDOUT has been muted and is now only written to log
+If you wish to see all output, Please add -noise to your command
+Log file: /tmp/remote_query_data_2016-10-30_10_33_23/logs/remote_query_data2016-10-30_10_33_23.log
+[0;36m30-10-2016_10-33-23 [tlv-mpl9n] [save_pid] WARN Process ID 15764[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [setup_env_based_aliases] INFO Successfully validated param SCRIPTS_HOME=/Users/egozlan/work/akamai/csi-scripts/scripts/data_gathering/../infra[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [setup_env_based_aliases] INFO OS is Darwin[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [main] INFO scripts folder local path is: /Users/egozlan/work/akamai/csi-scripts/scripts/data_gathering/../infra[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [main] INFO Parsing args[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [parse_args] INFO about to parse args: --query_file nat_query_301016-103322.hql_sj.tmp -tm 104.100.166.2 -priority VERY_HIGH[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [parse_args] INFO -query_file=nat_query_301016-103322.hql_sj.tmp[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [parse_args] INFO -tm=104.100.166.2[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [parse_args] INFO -priority=VERY_HIGH[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [main] INFO Successfully validated param RU=csitr[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [main] INFO Successfully validated param TM=104.100.166.2[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [main] INFO Successfully validated param BD=/ghostcache5[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [prep_local_env] INFO will create a local workspace --> /tmp/remote_query_data_2016-10-30_10_33_23/staging_folder/[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [get_tr_query] INFO will parse --> nat_query_301016-103322.]0;nat_query_301016-103322.hql_sj: Map: 0% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 1% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 2% Reduce: 0%hql_sj.tmp [0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [generate_session_key_file] INFO generation a encryption key[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [setup_env_based_aliases] INFO Successfully validated param SCRIPTS_HOME=/Users/egozlan/work/akamai/csi-scripts/scripts/data_gathering/../infra[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [setup_env_based_aliases] INFO OS is Darwin[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [encrypt_hive_pass] INFO using session key to encrypt the user password[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [encrypt_hive_pass] INFO Successfully validated param PSSWD=************[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [generate_remote_runtime] INFO Successfully validated param PRIORITY=VERY_HIGH[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [generate_remote_runtime] INFO creating remote runtime script as: /tmp/remote_query_data_2016-10-30_10_33_23/staging_folder//remote_runtime.sh[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [execute_e2e_remotely] INFO Successfully validated param RU=csitr[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [execute_e2e_remotely] INFO Successfully validated param TM=104.100.166.2[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [execute_remotely] INFO Successfully validated param TM=104.100.166.2[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [execute_remotely] INFO Exeucting remotely on 104.100.166.2, with temp workspace /ghostcache5/egozlan/remote_query_data/_2016-10-30_10_33_23 and the following parameters:
+ssh command gwsh
+scp command: scp -Sgwsh -C
+remote user csitr
+artifacts_to_copy: /tmp/remote_query_data_2016-10-30_10_33_23/staging_folder/* 
+command: /usr/bin/nohup /ghostcache5/egozlan/remote_query_data/_2016-10-30_10_33_23/remote_runtime.sh[0m
+[0;32m30-10-2016_10-33-23 [tlv-mpl9n] [execute_remotely] INFO Making temp workspace /ghostcache5/egozlan/remote_query_data/_2016-10-30_10_33_23 on remote host 104.100.166.2[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [execute_remotely] INFO /ghostcache5/egozlan/remote_query_data/_2016-10-30_10_33_23 Created OK[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [execute_remotely] INFO Copying the following artifacts to remote workspace [0m
+[0;32m30-10-2016_10-33-32 [tlv-mpl9n] [execute_remotely] INFO registring the following sigint trap to terminate remote process: remote_pkill gwsh csitr 104.100.166.2 /ghostcache5/egozlan/remote_query_data/_2016-10-30_10_33_23[0m
+[0;32m30-10-2016_10-33-32 [tlv-mpl9n] [execute_remotely] INFO about to execute the following command /usr/bin/nohup /ghostcache5/egozlan/remote_query_data/_2016-10-30_10_33_23/remote_runtime.sh on 104.100.166.2[0m
+Java HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize=512M; support was removed in 8.0
+Java HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize=512M; support was removed in 8.0
+
+Logging initialized using configuration in file:/tmp/tmpDF_2hzhiveconf/hive-log4j.properties
+Query ID = hdfs_20161030083333_d4a111fc-38ce-4400-9db9-dec910f8b498
+Total jobs = 8
+Launching Job 1 out of 8
+Number of reduce tasks not specified. Estimated from input data size: 10
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+
+########################################
+##### YOU CAN EXIT NOW, IF YOU WANT ####
+########################################
+
+Starting Job = job_1475762120547_196681, Tracking URL = http://a10-100-164-37.csi.foo.bar:8088/proxy/application_1475762120547_196681/
+Kill Command = /ghostcache/cloudera/parcels/CDH-5.5.2-1.cdh5.5.2.p0.4/lib/hadoop//bin/hadoop job  -kill job_1475762120547_196681
+Hadoop job information for Stage-1: number of mappers: 249; number of reducers: 10
+2016-10-30 08:34:06,732 Stage-1 map = 0%,  reduce = 0%
+2016-10-30 08:34:17,483 Stage-1 map = 1%,  reduce = 0%, Cumulative CPU 26.05 sec
+2016-10-30 08:34:18,508 Stage-1 map = 2%,  reduce = 0%, Cumulative CPU 58.45 sec
+2016-10-30 08:34:23,628 S]0;nat_query_301016-103322.hql_sj: Map: 3% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 4% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 5% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 6% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 7% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 8% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 9% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 10% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 11% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 12% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 13% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 15% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 16% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 17% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 18% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 19% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 20% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 22% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 24% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 26% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 27% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 28% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 29% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 30% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 31% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 34% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 35% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 36% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 37% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 38% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 39% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 40% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 43% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 45% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 47% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 48% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 49% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 50% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 51% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 52% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 53% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 55% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 56% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 57% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 58% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 60% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 61% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 62% Reduce: 0%tage-1 map = 3%,  reduce = 0%, Cumulative CPU 5125.74 sec
+2016-10-30 08:34:26,692 Stage-1 map = 4%,  reduce = 0%, Cumulative CPU 6020.09 sec
+2016-10-30 08:34:30,786 Stage-1 map = 5%,  reduce = 0%, Cumulative CPU 7242.27 sec
+2016-10-30 08:34:32,833 Stage-1 map = 6%,  reduce = 0%, Cumulative CPU 8038.22 sec
+2016-10-30 08:34:35,894 Stage-1 map = 7%,  reduce = 0%, Cumulative CPU 9009.38 sec
+2016-10-30 08:34:38,953 Stage-1 map = 8%,  reduce = 0%, Cumulative CPU 9994.91 sec
+2016-10-30 08:34:46,087 Stage-1 map = 9%,  reduce = 0%, Cumulative CPU 12100.97 sec
+2016-10-30 08:34:48,125 Stage-1 map = 10%,  reduce = 0%, Cumulative CPU 13029.89 sec
+2016-10-30 08:34:51,182 Stage-1 map = 11%,  reduce = 0%, Cumulative CPU 14009.88 sec
+2016-10-30 08:34:54,237 Stage-1 map = 12%,  reduce = 0%, Cumulative CPU 14961.59 sec
+2016-10-30 08:35:03,409 Stage-1 map = 13%,  reduce = 0%, Cumulative CPU 17782.72 sec
+2016-10-30 08:35:06,465 Stage-1 map = 15%,  reduce = 0%, Cumulative CPU 18725.29 sec
+2016-10-30 08:35:08,503 Stage-1 map = 16%,  reduce = 0%, Cumulative CPU 19037.26 sec
+2016-10-30 08:35:09,522 Stage-1 map = 17%,  reduce = 0%, Cumulative CPU 19693.5 sec
+2016-10-30 08:35:10,541 Stage-1 map = 18%,  reduce = 0%, Cumulative CPU 19695.65 sec
+2016-10-30 08:35:12,578 Stage-1 map = 19%,  reduce = 0%, Cumulative CPU 20574.81 sec
+2016-10-30 08:35:13,599 Stage-1 map = 20%,  reduce = 0%, Cumulative CPU 20583.2 sec
+2016-10-30 08:35:14,617 Stage-1 map = 22%,  reduce = 0%, Cumulative CPU 20944.34 sec
+2016-10-30 08:35:15,636 Stage-1 map = 24%,  reduce = 0%, Cumulative CPU 21451.51 sec
+2016-10-30 08:35:16,654 Stage-1 map = 26%,  reduce = 0%, Cumulative CPU 21458.42 sec
+2016-10-30 08:35:17,672 Stage-1 map = 27%,  reduce = 0%, Cumulative CPU 21838.67 sec
+2016-10-30 08:35:18,691 Stage-1 map = 28%,  reduce = 0%, Cumulative CPU 22274.66 sec
+2016-10-30 08:35:19,710 Stage-1 map = 29%,  reduce = 0%, Cumulative CPU 22279.27 sec
+2016-10-30 08:35:21,746 Stage-1 map = 30%,  reduce = 0%, Cumulative CPU 23016.32 sec
+2016-10-30 08:35:23,782 Stage-1 map = 31%,  reduce = 0%, Cumulative CPU 23503.83 sec
+2016-10-30 08:35:24,801 Stage-1 map = 34%,  reduce = 0%, Cumulative CPU 23870.91 sec
+2016-10-30 08:35:25,831 Stage-1 map = 35%,  reduce = 0%, Cumulative CPU 23880.72 sec
+2016-10-30 08:35:26,849 Stage-1 map = 36%,  reduce = 0%, Cumulative CPU 24351.25 sec
+2016-10-30 08:35:27,869 Stage-1 map = 37%,  reduce = 0%, Cumulative CPU 24570.91 sec
+2016-10-30 08:35:28,887 Stage-1 map = 38%,  reduce = 0%, Cumulative CPU 24582.14 sec
+2016-10-30 08:35:30,922 Stage-1 map = 39%,  reduce = 0%, Cumulative CPU 25210.65 sec
+2016-10-30 08:35:31,940 Stage-1 map = 40%,  reduce = 0%, Cumulative CPU 25221.42 sec
+2016-10-30 08:35:32,958 Stage-1 map = 43%,  reduce = 0%, Cumulative CPU 25660.43 sec
+2016-10-30 08:35:33,976 Stage-1 map = 45%,  reduce = 0%, Cumulative CPU 25820.22 sec
+2016-10-30 08:35:34,995 Stage-1 map = 47%,  reduce = 0%, Cumulative CPU 25839.06 sec
+2016-10-30 08:35:38,052 Stage-1 map = 48%,  reduce = 0%, Cumulative CPU 26441.74 sec
+2016-10-30 08:35:39,070 Stage-1 map = 49%,  reduce = 0%, Cumulative CPU 26858.91 sec
+2016-10-30 08:35:41,106 Stage-1 map = 50%,  reduce = 0%, Cumulative CPU 26970.83 sec
+2016-10-30 08:35:42,123 Stage-1 map = 51%,  reduce = 0%, Cumulative CPU 27387.49 sec
+2016-10-30 08:35:43,141 Stage-1 map = 52%,  reduce = 0%, Cumulative CPU 27454.37 sec
+2016-10-30 08:35:45,178 Stage-1 map = 53%,  reduce = 0%, Cumulative CPU 27926.27 sec
+2016-10-30 08:35:46,196 Stage-1 map = 55%,  reduce = 0%, Cumulative CPU 27986.03 sec
+2016-10-30 08:35:47,214 Stage-1 map = 56%,  reduce = 0%, Cumulative CPU 27998.19 sec
+2016-10-30 08:35:49,248 Stage-1 map = 57%,  reduce = 0%, Cumulative CPU 28473.24 sec
+2016-10-30 08:35:50,265 Stage-1 map = 58%,  reduce = 0%, Cumulative CPU 28484.89 sec
+2016-10-30 08:35:52,299 Stage-1 map = 60%,  reduce = 0%, Cumulative CPU 28885.71 sec
+2016-10-30 08:35:55,349 Stage-1 map = 61%,  reduce = 0%, Cumulative CPU 29314.05 sec
+2016-10-30 08:35:56,367 Stage-1 map = 62%,  reduce = 0%, Cumulative CPU 29331.66 sec
+2016-10-30 08:35:57,386 Stage-1 map = 63%,  reduce = 0%,]0;nat_query_301016-103322.hql_sj: Map: 63% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 64% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 65% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 66% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 67% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 68% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 70% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 71% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 72% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 73% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 74% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 75% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 76% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 77% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 78% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 79% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 80% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 81% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 82% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 83% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 84% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 84% Reduce: 28%]0;nat_query_301016-103322.hql_sj: Map: 85% Reduce: 28%]0;nat_query_301016-103322.hql_sj: Map: 86% Reduce: 28%]0;nat_query_301016-103322.hql_sj: Map: 87% Reduce: 29%]0;nat_query_301016-103322.hql_sj: Map: 89% Reduce: 29%]0;nat_query_301016-103322.hql_sj: Map: 90% Reduce: 29%]0;nat_query_301016-103322.hql_sj: Map: 90% Reduce: 30%]0;nat_query_301016-103322.hql_sj: Map: 91% Reduce: 30%]0;nat_query_301016-103322.hql_sj: Map: 92% Reduce: 30%]0;nat_query_301016-103322.hql_sj: Map: 92% Reduce: 31%]0;nat_query_301016-103322.hql_sj: Map: 93% Reduce: 31%]0;nat_query_301016-103322.hql_sj: Map: 94% Reduce: 31%]0;nat_query_301016-103322.hql_sj: Map: 95% Reduce: 31%]0;nat_query_301016-103322.hql_sj: Map: 95% Reduce: 32%]0;nat_query_301016-103322.hql_sj: Map: 96% Reduce: 32%]0;nat_query_301016-103322.hql_sj: Map: 97% Reduce: 32%]0;nat_query_301016-103322.hql_sj: Map: 98% Reduce: 32%]0;nat_query_301016-103322.hql_sj: Map: 98% Reduce: 33%]0;nat_query_301016-103322.hql_sj: Map: 99% Reduce: 33%]0;nat_query_301016-103322.hql_sj: Map: 100% Reduce: 33%]0;nat_query_301016-103322.hql_sj: Map: 100% Reduce: 100% Cumulative CPU 29693.7 sec
+2016-10-30 08:35:58,403 Stage-1 map = 64%,  reduce = 0%, Cumulative CPU 29712.83 sec
+2016-10-30 08:35:59,420 Stage-1 map = 65%,  reduce = 0%, Cumulative CPU 29728.17 sec
+2016-10-30 08:36:02,471 Stage-1 map = 66%,  reduce = 0%, Cumulative CPU 30102.45 sec
+2016-10-30 08:36:03,494 Stage-1 map = 67%,  reduce = 0%, Cumulative CPU 30409.26 sec
+2016-10-30 08:36:07,561 Stage-1 map = 68%,  reduce = 0%, Cumulative CPU 30721.62 sec
+2016-10-30 08:36:08,578 Stage-1 map = 70%,  reduce = 0%, Cumulative CPU 30782.12 sec
+2016-10-30 08:36:09,595 Stage-1 map = 71%,  reduce = 0%, Cumulative CPU 31066.74 sec
+2016-10-30 08:36:11,629 Stage-1 map = 72%,  reduce = 0%, Cumulative CPU 31107.36 sec
+2016-10-30 08:36:15,704 Stage-1 map = 73%,  reduce = 0%, Cumulative CPU 31652.08 sec
+2016-10-30 08:36:16,722 Stage-1 map = 74%,  reduce = 0%, Cumulative CPU 31659.47 sec
+2016-10-30 08:36:22,825 Stage-1 map = 75%,  reduce = 0%, Cumulative CPU 32198.41 sec
+2016-10-30 08:36:26,894 Stage-1 map = 76%,  reduce = 0%, Cumulative CPU 32513.15 sec
+2016-10-30 08:36:29,943 Stage-1 map = 77%,  reduce = 0%, Cumulative CPU 32765.31 sec
+2016-10-30 08:36:30,960 Stage-1 map = 78%,  reduce = 0%, Cumulative CPU 32920.43 sec
+2016-10-30 08:36:38,075 Stage-1 map = 79%,  reduce = 0%, Cumulative CPU 33402.46 sec
+2016-10-30 08:36:44,187 Stage-1 map = 80%,  reduce = 0%, Cumulative CPU 33839.06 sec
+2016-10-30 08:36:46,220 Stage-1 map = 81%,  reduce = 0%, Cumulative CPU 34046.66 sec
+2016-10-30 08:36:48,253 Stage-1 map = 82%,  reduce = 0%, Cumulative CPU 34157.26 sec
+2016-10-30 08:36:52,323 Stage-1 map = 83%,  reduce = 0%, Cumulative CPU 34420.37 sec
+2016-10-30 08:36:53,341 Stage-1 map = 84%,  reduce = 0%, Cumulative CPU 34421.96 sec
+2016-10-30 08:36:56,395 Stage-1 map = 84%,  reduce = 28%, Cumulative CPU 34602.45 sec
+2016-10-30 08:37:02,501 Stage-1 map = 85%,  reduce = 28%, Cumulative CPU 34943.12 sec
+2016-10-30 08:37:03,519 Stage-1 map = 86%,  reduce = 28%, Cumulative CPU 35073.31 sec
+2016-10-30 08:37:08,606 Stage-1 map = 87%,  reduce = 29%, Cumulative CPU 35245.75 sec
+2016-10-30 08:37:15,729 Stage-1 map = 89%,  reduce = 29%, Cumulative CPU 35637.15 sec
+2016-10-30 08:37:18,781 Stage-1 map = 90%,  reduce = 29%, Cumulative CPU 35748.79 sec
+2016-10-30 08:37:20,816 Stage-1 map = 90%,  reduce = 30%, Cumulative CPU 35749.27 sec
+2016-10-30 08:37:23,868 Stage-1 map = 91%,  reduce = 30%, Cumulative CPU 35856.23 sec
+2016-10-30 08:37:24,885 Stage-1 map = 92%,  reduce = 30%, Cumulative CPU 35939.25 sec
+2016-10-30 08:37:29,971 Stage-1 map = 92%,  reduce = 31%, Cumulative CPU 36021.38 sec
+2016-10-30 08:37:33,023 Stage-1 map = 93%,  reduce = 31%, Cumulative CPU 36136.95 sec
+2016-10-30 08:37:48,279 Stage-1 map = 94%,  reduce = 31%, Cumulative CPU 36496.02 sec
+2016-10-30 08:37:51,330 Stage-1 map = 95%,  reduce = 31%, Cumulative CPU 36563.74 sec
+2016-10-30 08:37:54,382 Stage-1 map = 95%,  reduce = 32%, Cumulative CPU 36617.57 sec
+2016-10-30 08:38:00,484 Stage-1 map = 96%,  reduce = 32%, Cumulative CPU 36712.56 sec
+2016-10-30 08:38:11,685 Stage-1 map = 97%,  reduce = 32%, Cumulative CPU 36865.61 sec
+2016-10-30 08:38:59,485 Stage-1 map = 98%,  reduce = 32%, Cumulative CPU 37376.7 sec
+2016-10-30 08:39:00,503 Stage-1 map = 98%,  reduce = 33%, Cumulative CPU 37376.96 sec
+2016-10-30 08:39:18,819 Stage-1 map = 99%,  reduce = 33%, Cumulative CPU 37498.07 sec
+2016-10-30 08:39:52,377 Stage-1 map = 100%,  reduce = 33%, Cumulative CPU 37568.07 sec
+2016-10-30 08:39:53,394 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 37585.91 sec
+MapReduce Total cumulative CPU time: 0 days 10 hours 26 minutes 25 seconds 910 msec
+Ended Job = job_1475762120547_196681
+Launching Job 2 out of 8
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1475762120547_196695, Tracking URL = ]0;nat_query_301016-103322.hql_sj: Map: 0% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 96% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 97% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 100% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 100% Reduce: 67%]0;nat_query_301016-103322.hql_sj: Map: 100% Reduce: 82%]0;nat_query_301016-103322.hql_sj: Map: 100% Reduce: 100%]0;nat_query_301016-103322.hql_sj: Map: 0% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 45% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 85% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 100% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 100% Reduce: 100%]0;nat_query_301016-103322.hql_sj: Map: 0% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 90% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 100% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 100% Reduce: 100%http://a10-100-164-37.csi.foo.bar:8088/proxy/application_1475762120547_196695/
+Kill Command = /ghostcache/cloudera/parcels/CDH-5.5.2-1.cdh5.5.2.p0.4/lib/hadoop//bin/hadoop job  -kill job_1475762120547_196695
+Hadoop job information for Stage-5: number of mappers: 23; number of reducers: 1
+2016-10-30 08:40:10,476 Stage-5 map = 0%,  reduce = 0%
+2016-10-30 08:40:23,839 Stage-5 map = 96%,  reduce = 0%, Cumulative CPU 309.99 sec
+2016-10-30 08:40:25,875 Stage-5 map = 97%,  reduce = 0%, Cumulative CPU 328.81 sec
+2016-10-30 08:40:27,909 Stage-5 map = 100%,  reduce = 0%, Cumulative CPU 331.19 sec
+2016-10-30 08:40:35,025 Stage-5 map = 100%,  reduce = 67%, Cumulative CPU 340.78 sec
+2016-10-30 08:40:38,075 Stage-5 map = 100%,  reduce = 82%, Cumulative CPU 348.26 sec
+2016-10-30 08:40:41,123 Stage-5 map = 100%,  reduce = 100%, Cumulative CPU 351.28 sec
+MapReduce Total cumulative CPU time: 5 minutes 51 seconds 280 msec
+Ended Job = job_1475762120547_196695
+Launching Job 3 out of 8
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1475762120547_196710, Tracking URL = http://a10-100-164-37.csi.foo.bar:8088/proxy/application_1475762120547_196710/
+Kill Command = /ghostcache/cloudera/parcels/CDH-5.5.2-1.cdh5.5.2.p0.4/lib/hadoop//bin/hadoop job  -kill job_1475762120547_196710
+Hadoop job information for Stage-6: number of mappers: 20; number of reducers: 1
+2016-10-30 08:40:59,325 Stage-6 map = 0%,  reduce = 0%
+2016-10-30 08:41:05,439 Stage-6 map = 45%,  reduce = 0%, Cumulative CPU 105.0 sec
+2016-10-30 08:41:06,457 Stage-6 map = 85%,  reduce = 0%, Cumulative CPU 200.74 sec
+2016-10-30 08:41:07,474 Stage-6 map = 100%,  reduce = 0%, Cumulative CPU 246.54 sec
+2016-10-30 08:41:16,622 Stage-6 map = 100%,  reduce = 100%, Cumulative CPU 258.0 sec
+MapReduce Total cumulative CPU time: 4 minutes 18 seconds 0 msec
+Ended Job = job_1475762120547_196710
+Stage-12 is filtered out by condition resolver.
+Stage-2 is selected by condition resolver.
+Launching Job 4 out of 8
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1475762120547_196716, Tracking URL = http://a10-100-164-37.csi.foo.bar:8088/proxy/application_1475762120547_196716/
+Kill Command = /ghostcache/cloudera/parcels/CDH-5.5.2-1.cdh5.5.2.p0.4/lib/hadoop//bin/hadoop job  -kill job_1475762120547_196716
+Hadoop job information for Stage-2: number of mappers: 10; number of reducers: 1
+2016-10-30 08:41:33,030 Stage-2 map = 0%,  reduce = 0%
+2016-10-30 08:41:38,122 Stage-2 map = 90%,  reduce = 0%, Cumulative CPU 8.84 sec
+2016-10-30 08:41:40,156 Stage-2 map = 100%,  reduce = 0%, Cumulative CPU 17.36 sec
+2016-10-30 08:41:44,221 Stage-2 map = 100%,  reduce = 100%, Cumulative CPU 22.36 sec
+MapReduce Total cumulative CPU time: 22 seconds 360 msec
+Ended Job = job_1475762120547_196716
+Stage-11 is selected by condition resolver.
+Stage-3 is filtered out by condition resolver.
+Java HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize=512M; support was removed in 8.0
+Execution log at: /tmp/hdfs/hdfs_20161030083333_d4a111fc-38ce-4400-9db9-dec910f8b498.log
+2016-10-30 08:41:49	Starting to launch local task to process map join;	maximum memory = 2027945984
+2016-10-30 08:41:50	Processing rows:	200000	Hashtable size:	199999	Memory usage:	344171656	percentage:	0.17
+2016-10-30 08:41:50	Dump the side-table for tag: 1 with group count: 242442 into file: file:/tmp/hdfs/359f2f14-5129-4869-b86f-c7b86e7cce1d/hive_2016-10-30_08-33-41_359_2300505409911890893-1/-local-10008/HashTable-St]0;nat_query_301016-103322.hql_sj: Map: 0% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 100% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 0% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 100% Reduce: 0%]0;nat_query_301016-103322.hql_sj: Map: 100% Reduce: 100%]0;nat_query_301016-103322.hql_sj: Finishedage-7/MapJoin-mapfile01--.hashtable
+2016-10-30 08:41:51	Uploaded 1 File to: file:/tmp/hdfs/359f2f14-5129-4869-b86f-c7b86e7cce1d/hive_2016-10-30_08-33-41_359_2300505409911890893-1/-local-10008/HashTable-Stage-7/MapJoin-mapfile01--.hashtable (14298832 bytes)
+2016-10-30 08:41:51	End of local task; Time Taken: 1.616 sec.
+Execution completed successfully
+MapredLocal task succeeded
+Launching Job 6 out of 8
+Number of reduce tasks is set to 0 since there's no reduce operator
+Starting Job = job_1475762120547_196719, Tracking URL = http://a10-100-164-37.csi.foo.bar:8088/proxy/application_1475762120547_196719/
+Kill Command = /ghostcache/cloudera/parcels/CDH-5.5.2-1.cdh5.5.2.p0.4/lib/hadoop//bin/hadoop job  -kill job_1475762120547_196719
+Hadoop job information for Stage-7: number of mappers: 1; number of reducers: 0
+2016-10-30 08:42:03,662 Stage-7 map = 0%,  reduce = 0%
+2016-10-30 08:42:08,757 Stage-7 map = 100%,  reduce = 0%, Cumulative CPU 3.16 sec
+MapReduce Total cumulative CPU time: 3 seconds 160 msec
+Ended Job = job_1475762120547_196719
+Launching Job 7 out of 8
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1475762120547_196720, Tracking URL = http://a10-100-164-37.csi.foo.bar:8088/proxy/application_1475762120547_196720/
+Kill Command = /ghostcache/cloudera/parcels/CDH-5.5.2-1.cdh5.5.2.p0.4/lib/hadoop//bin/hadoop job  -kill job_1475762120547_196720
+Hadoop job information for Stage-4: number of mappers: 1; number of reducers: 1
+2016-10-30 08:42:31,433 Stage-4 map = 0%,  reduce = 0%
+2016-10-30 08:42:35,511 Stage-4 map = 100%,  reduce = 0%, Cumulative CPU 0.95 sec
+2016-10-30 08:42:40,620 Stage-4 map = 100%,  reduce = 100%, Cumulative CPU 3.01 sec
+MapReduce Total cumulative CPU time: 3 seconds 10 msec
+Ended Job = job_1475762120547_196720
+MapReduce Jobs Launched: 
+Stage-Stage-1: Map: 249  Reduce: 10   Cumulative CPU: 37585.91 sec   HDFS Read: 127173357469 HDFS Write: 4325 SUCCESS
+Stage-Stage-5: Map: 23  Reduce: 1   Cumulative CPU: 351.28 sec   HDFS Read: 45459104 HDFS Write: 27240470 SUCCESS
+Stage-Stage-6: Map: 20  Reduce: 1   Cumulative CPU: 258.0 sec   HDFS Read: 52977799 HDFS Write: 14124588 SUCCESS
+Stage-Stage-2: Map: 10  Reduce: 1   Cumulative CPU: 22.36 sec   HDFS Read: 27290996 HDFS Write: 3956 SUCCESS
+Stage-Stage-7: Map: 1   Cumulative CPU: 3.16 sec   HDFS Read: 10674 HDFS Write: 1689 SUCCESS
+Stage-Stage-4: Map: 1  Reduce: 1   Cumulative CPU: 3.01 sec   HDFS Read: 8231 HDFS Write: 1757 SUCCESS
+Total MapReduce CPU Time Spent: 0 days 10 hours 37 minutes 3 seconds 720 msec
+OK
+Time taken: 544.907 seconds, Fetched: 7 row(s)
+Hive exit code is:0
+Query Result SCP syntax --> scp -S gwsh csitr@104.100.166.2:/ghostcache5/egozlan/remote_query_data/_2016-10-30_10_33_23/output.gz
+[0;36m30-10-2016_10-42-46 [tlv-mpl9n] [execute_remotely] WARN Remote Execution return code 0[0m
+[0;32m30-10-2016_10-42-46 [tlv-mpl9n] [finish] INFO [EXIT RETURN CODE]: 0[0m

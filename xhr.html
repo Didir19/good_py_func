@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script>
+
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
+
+$(document).ready(function(){
+        $.post("awt_get.php",
+        {
+          name: "Donald Duck",
+          city: "Duckburg"
+        },
+        function(data,status){
+          document.getElementById("demo").innerHTML = data;
+        });
+
+});
+
+sleep(500);
+
+$(document).ready(function(){
+        $.get("awt_get.php",
+        {
+},
+        function(data,status){
+          document.getElementById("demo").innerHTML = data;
+        });
+});
+</script>
+</head>
+<body>
+</head>
+<body>
+
+<p id="demo">Let AJAX change this text.</p>
+<button type="button" onclick="loadDocGet()">XHR GET Request</button>
+<button type="button" onclick="loadDocPost()">XHR POST Request</button>
+<button id="jqueryButton" type="button" >jQuery AJAX POST</button>
+<button id="jqueryButtonGet" type="button" >jQuery AJAX GET</button>
+<script>
+function loadDocGet() {
+  var xhttp;
+  if (window.XMLHttpRequest) {
+    // code for modern browsers
+    xhttp = new XMLHttpRequest();
+    } else {
+    // code for IE6, IE5
+    xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      document.getElementById("demo").innerHTML = xhttp.responseText;
+    }
+  };
+  xhttp.open("GET", "awt_get.php", true);
+  xhttp.send();
+}
+
+function loadDocPost() {
+  var xhttp;
+  if (window.XMLHttpRequest) {
+    // code for modern browsers
+    xhttp = new XMLHttpRequest();
+    } else {
+    // code for IE6, IE5
+    xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xhttp.onreadystatechange = function() {
+    if (xhttp.readyState == 4 && xhttp.status == 200) {
+      document.getElementById("demo").innerHTML = xhttp.responseText;
+    }
+  };
+	xhttp.open("POST", "awt_get.php", true);
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("fname=Henry&lname=Ford");
+}
+
+
+loadDocGet();
+loadDocPost();
+</script>
+
+</body>
+</html>

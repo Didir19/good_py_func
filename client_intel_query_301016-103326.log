@@ -1,0 +1,103 @@
+]0;client_intel_query_301016-103326.hql_sjRun_Query.py Version 2.0
+
+Applying Hive load offset of 14400 secs.
+Starting new job
+Query's priority: VERY_HIGH
+-- Query file name client_intel_query_301016-103326.hql 
+ 
+    SELECT *
+    FROM client_intl
+    WHERE
+        ip IN ('208.53.101.233')
+        AND ts>='1475987606000' AND ts<'1477802006000'
+        AND isnotnull(heuristic_detected)
+    ORDER BY ts;
+    
+client_intel_query_301016-103326.hql
+Running query on: 104.100.166.2
+Log level REMOTE_STDOUT has been muted and is now only written to log
+If you wish to see all output, Please add -noise to your command
+Log file: /tmp/remote_query_data_2016-10-30_10_33_26/logs/remote_query_data2016-10-30_10_33_26.log
+[0;36m30-10-2016_10-33-26 [tlv-mpl9n] [save_pid] WARN Process ID 16028[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [setup_env_based_aliases] INFO Successfully validated param SCRIPTS_HOME=/Users/egozlan/work/akamai/csi-scripts/scripts/data_gathering/../infra[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [setup_env_based_aliases] INFO OS is Darwin[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [main] INFO scripts folder local path is: /Users/egozlan/work/akamai/csi-scripts/scripts/data_gathering/../infra[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [main] INFO Parsing args[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [parse_args] INFO about to parse args: --query_file client_intel_query_301016-103326.hql_sj.tmp -tm 104.100.166.2 -priority VERY_HIGH[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [parse_args] INFO -query_file=client_intel_query_301016-103326.hql_sj.tmp[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [parse_args] INFO -tm=104.100.166.2[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [parse_args] INFO -priority=VERY_HIGH[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [main] INFO Successfully validated param RU=csitr[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [main] INFO Successfully validated param TM=104.100.166.2[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [main] INFO Successfully validated param BD=/ghostcache5[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [prep_local_env] INFO will create a local workspace --> /tmp/remote_query_data_2016-10-30_10_33_26/staging_folder/[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [get_tr_query] INFO will parse --> client_intel_query_301016-103326.hql_sj.tmp [0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [generate_session_key_file] INFO generation a encryption key[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [setup_env_based_aliases] INFO Successfully validated param SCRIPTS_HOME=/Users/egozlan/work/akamai/csi-scripts/scripts/data_gathering/../infra[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [setup_env_based_aliases] INFO OS is Darwin[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [encrypt_hive_pass] INFO using session key to encrypt the user password[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [encrypt_hive_pass] INFO Successfully validated param PSSWD=************[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [generate_remote_runtime] INFO Successfully validated param PRIORITY=VERY_HIGH[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [generate_remote_runtime] INFO creating remote runtime script as: /tmp/remote_query_data_2016-10-30_10_33_26/staging_folder//remote_runtime.sh[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [execute_e2e_remotely] INFO Successfully validated param RU=csitr[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [execute_e2e_remotely] INFO Successfully validated param TM=104.100.166.2[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [execute_remotely] INFO Successfully validated param TM=104.100.166.2[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [execute_remotely] INFO Exeucting remotely on 104.100.166.2, with temp workspace /ghostcache5/egozlan/remote_query_data/_2016-10-30_10_33_26 and the following parameters:
+ssh command gwsh
+scp command: scp -Sgwsh -C
+remote user csitr
+artifacts_to_copy: /tmp/remote_query_data_2016-10-30_10_33_26/staging_folder/* 
+command: /usr/bin/nohup /ghostcache5/egozlan/remote_query_data/_2016-10-30_10_33_26/remote_runtime.sh[0m
+[0;32m30-10-2016_10-33-26 [tlv-mpl9n] [execute_remotely] INFO Making temp workspace /ghostcache5/egozlan/rem]0;client_intel_query_301016-103326.hql_sj: Map: 0% Reduce: 0%]0;client_intel_query_301016-103326.hql_sj: Map: 1% Reduce: 0%]0;client_intel_query_301016-103326.hql_sj: Map: 31% Reduce: 0%]0;client_intel_query_301016-103326.hql_sj: Map: 35% Reduce: 0%]0;client_intel_query_301016-103326.hql_sj: Map: 36% Reduce: 0%]0;client_intel_query_301016-103326.hql_sj: Map: 45% Reduce: 0%]0;client_intel_query_301016-103326.hql_sj: Map: 55% Reduce: 0%]0;client_intel_query_301016-103326.hql_sj: Map: 66% Reduce: 0%]0;client_intel_query_301016-103326.hql_sj: Map: 72% Reduce: 0%]0;client_intel_query_301016-103326.hql_sj: Map: 73% Reduce: 0%]0;client_intel_query_301016-103326.hql_sj: Map: 81% Reduce: 0%]0;client_intel_query_301016-103326.hql_sj: Map: 88% Reduce: 0%]0;client_intel_query_301016-103326.hql_sj: Map: 99% Reduce: 0%]0;client_intel_query_301016-103326.hql_sj: Map: 100% Reduce: 0%]0;client_intel_query_301016-103326.hql_sj: Map: 100% Reduce: 100%]0;client_intel_query_301016-103326.hql_sj: Finishedote_query_data/_2016-10-30_10_33_26 on remote host 104.100.166.2[0m
+[0;32m30-10-2016_10-33-30 [tlv-mpl9n] [execute_remotely] INFO /ghostcache5/egozlan/remote_query_data/_2016-10-30_10_33_26 Created OK[0m
+[0;32m30-10-2016_10-33-30 [tlv-mpl9n] [execute_remotely] INFO Copying the following artifacts to remote workspace [0m
+[0;32m30-10-2016_10-33-35 [tlv-mpl9n] [execute_remotely] INFO registring the following sigint trap to terminate remote process: remote_pkill gwsh csitr 104.100.166.2 /ghostcache5/egozlan/remote_query_data/_2016-10-30_10_33_26[0m
+[0;32m30-10-2016_10-33-35 [tlv-mpl9n] [execute_remotely] INFO about to execute the following command /usr/bin/nohup /ghostcache5/egozlan/remote_query_data/_2016-10-30_10_33_26/remote_runtime.sh on 104.100.166.2[0m
+Java HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize=512M; support was removed in 8.0
+Java HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize=512M; support was removed in 8.0
+
+Logging initialized using configuration in file:/tmp/tmpcVhX0Ehiveconf/hive-log4j.properties
+Query ID = hdfs_20161030083333_cd2cc385-3f71-4b86-9d40-3298df5f5225
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+
+########################################
+##### YOU CAN EXIT NOW, IF YOU WANT ####
+########################################
+
+Starting Job = job_1475762120547_196680, Tracking URL = http://a10-100-164-37.csi.foo.bar:8088/proxy/application_1475762120547_196680/
+Kill Command = /ghostcache/cloudera/parcels/CDH-5.5.2-1.cdh5.5.2.p0.4/lib/hadoop//bin/hadoop job  -kill job_1475762120547_196680
+Hadoop job information for Stage-1: number of mappers: 609; number of reducers: 1
+2016-10-30 08:34:09,144 Stage-1 map = 0%,  reduce = 0%
+2016-10-30 08:34:18,831 Stage-1 map = 1%,  reduce = 0%, Cumulative CPU 49.5 sec
+2016-10-30 08:34:19,998 Stage-1 map = 31%,  reduce = 0%, Cumulative CPU 1143.96 sec
+2016-10-30 08:34:21,042 Stage-1 map = 35%,  reduce = 0%, Cumulative CPU 1381.46 sec
+2016-10-30 08:34:23,338 Stage-1 map = 36%,  reduce = 0%, Cumulative CPU 1411.3 sec
+2016-10-30 08:34:25,450 Stage-1 map = 45%,  reduce = 0%, Cumulative CPU 1740.48 sec
+2016-10-30 08:34:26,518 Stage-1 map = 55%,  reduce = 0%, Cumulative CPU 2117.78 sec
+2016-10-30 08:34:27,550 Stage-1 map = 66%,  reduce = 0%, Cumulative CPU 2535.91 sec
+2016-10-30 08:34:28,577 Stage-1 map = 72%,  reduce = 0%, Cumulative CPU 2798.68 sec
+2016-10-30 08:34:29,608 Stage-1 map = 73%,  reduce = 0%, Cumulative CPU 2840.89 sec
+2016-10-30 08:34:30,640 Stage-1 map = 81%,  reduce = 0%, Cumulative CPU 3135.61 sec
+2016-10-30 08:34:31,673 Stage-1 map = 88%,  reduce = 0%, Cumulative CPU 3411.07 sec
+2016-10-30 08:34:32,707 Stage-1 map = 99%,  reduce = 0%, Cumulative CPU 3837.38 sec
+2016-10-30 08:34:33,736 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 3864.56 sec
+2016-10-30 08:34:35,797 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 3868.69 sec
+MapReduce Total cumulative CPU time: 0 days 1 hours 4 minutes 28 seconds 690 msec
+Ended Job = job_1475762120547_196680
+MapReduce Jobs Launched: 
+Stage-Stage-1: Map: 609  Reduce: 1   Cumulative CPU: 3868.69 sec   HDFS Read: 41110326 HDFS Write: 1059 SUCCESS
+Total MapReduce CPU Time Spent: 0 days 1 hours 4 minutes 28 seconds 690 msec
+OK
+Time taken: 56.02 seconds, Fetched: 6 row(s)
+Hive exit code is:0
+Query Result SCP syntax --> scp -S gwsh csitr@104.100.166.2:/ghostcache5/egozlan/remote_query_data/_2016-10-30_10_33_26/output.gz
+[0;36m30-10-2016_10-34-41 [tlv-mpl9n] [execute_remotely] WARN Remote Execution return code 0[0m
+[0;32m30-10-2016_10-34-41 [tlv-mpl9n] [finish] INFO [EXIT RETURN CODE]: 0[0m

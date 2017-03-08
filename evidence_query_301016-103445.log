@@ -1,0 +1,188 @@
+]0;evidence_query_301016-103445.hql_sjRun_Query.py Version 2.0
+
+Applying Hive load offset of 14400 secs.
+Starting new job
+Query's priority: VERY_HIGH
+-- Query file name evidence_query_301016-103445.hql 
+ 
+SELECT intermediate_data.client_id AS IP,
+       getED(intermediate_data.client_id,'company') AS COMPANY,
+       getED(intermediate_data.client_id,'domain') AS DOMAIN,
+       intermediate_data.heuristic_name AS HEURISTIC_NAME,
+       intermediate_data.score AS SCORE,
+       evidence_properties.key AS KEY ,
+       evidence_properties.value AS VALUE,
+       innerTable.HOSTS AS HOSTS,
+       intermediate_data.ts AS TS
+FROM intermediate_data
+JOIN evidence_properties ON (intermediate_data.id = evidence_properties.id
+                             AND intermediate_data.ts = evidence_properties.ts)
+JOIN
+  (SELECT host_stats.ts AS TS,
+          host_stats.id ID,
+          collect_set(host_stats.host) AS HOSTS
+   FROM host_stats
+   WHERE ts in (1475985600000, 1477540800000, 1477551600000)
+   GROUP BY host_stats.id,
+            host_stats.ts) innerTable ON (intermediate_data.id = innerTable.ID
+                                          AND intermediate_data.ts = innerTable.TS)
+WHERE intermediate_data.client_id IN ('208.53.101.233')
+  AND intermediate_data.ts in (1475985600000, 1477540800000, 1477551600000)
+  AND evidence_properties.ts in (1475985600000, 1477540800000, 1477551600000)
+  AND intermediate_data.heuristic_name NOT LIKE '%Score%'
+  AND intermediate_data.group_ids LIKE '%production%'
+                                            
+evidence_query_301016-103445.hql
+Running query on: 104.100.166.2
+Log level REMOTE_STDOUT has been muted and is now only written to log
+If you wish to see all output, Please add -noise to your command
+Log file: /tmp/remote_query_data_2016-10-30_10_34_50/logs/remote_query_data2016-10-30_10_34_50.log
+[0;36m30-10-2016_10-34-50 [tlv-mpl9n] [save_pid] WARN Process ID 17401[0m
+[0;32m30-10-2016_10-34-50 [tlv-mpl9n] [setup_env_based_aliases] INFO Successfully validated param SCRIPTS_HOME=/Users/egozlan/work/akamai/csi-scripts/scripts/data_gathering/../infra[0m
+[0;32m30-10-2016_10-34-50 [tlv-mpl9n] [setup_env_based_aliases] INFO OS is Darwin[0m
+[0;32m30-10-2016_10-34-50 [tlv-mpl9n] [main] INFO scripts folder local path is: /Users/egozlan/work/akamai/csi-scripts/scripts/data_gathering/../infra[0m
+[0;32m30-10-2016_10-34-50 [tlv-mpl9n] [main] INFO Parsing args[0m
+[0;32m30-10-2016_10-34-50 [tlv-mpl9n] [parse_args] INFO about to parse args: --query_file evidence_query_301016-103445.hql_sj.tmp -tm 104.100.166.2 -priority VERY_HIGH[0m
+[0;32m30-10-2016_10-34-50 [tlv-mpl9n] [parse_args] INFO -query_file=evidence_query_301016-103445.hql_sj.tmp[0m
+[0;32m30-10-2016_10-34-50 [tlv-mpl9n] [parse_args] INFO -tm=104.100.166.2[0m
+[0;32m30-10-2016_10-34-50 [tlv-mpl9n] [parse_args] INFO -priority=VERY_HIGH[0m
+[0;32m30-10-2016_10-34-51 [tlv-mpl9n] [main] INFO Successfully validated param RU=csitr[0m
+[0;32m30-10-2016_10-34-51 [tlv-mpl9n] [main] INFO Successfully validated param TM=104.100.166.2[0m
+[0;32m30-10-2016_10-34-51 [tlv-mpl9n] [main] INFO Successfully validated param BD=/ghostcache5[0m
+[0;32m30-10-2016_10-34-51 [tlv-mpl9n] [prep_local_env] INFO will create a local workspace --> /tmp/remote_query_data_2016-10-30_10_34_50/staging_folder/[0m
+[0;32m30-10-2016_10-34-51 [tlv-mpl9n] [get_tr_query] INFO will parse --> evidence_query_301016-103445.hql_sj.tmp [0m
+[0;32m30-10-2016_10-34-51 [tlv-mpl9n] [generate_session_key_file] INFO generation a encryption key[0m
+[0;32m30-10-2016_10-34-51 [tlv-mpl9n] [setup_env_based_aliases] INFO Successfully validated param SCRIPTS_HOME=/Users/egozlan/work/akamai/csi-scripts/scripts/data_gathering/../infra[0m
+[0;32m30-10-2016_10-34-51 [tlv-mpl9n] [setup_env_based_aliases] INFO OS is Darwin[0m
+[0;32m30-10-2016_10-34-51 [tlv-mpl9n] [encrypt_hive_pass] INFO using session key to encrypt the user password[0m
+[0;32m30-10-2016_10-34-51 [tlv-mpl9n] [encrypt_hive_pass] INFO Successfully validated param PSSWD=************[0m
+[0;32m30-10-2016_10-34-51 [tlv-mpl9n] [generate_remote_runtime] INFO Successfully v]0;evidence_query_301016-103445.hql_sj: Map: 0% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 36% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 82% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 88% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 91% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 91% Reduce: 30%]0;evidence_query_301016-103445.hql_sj: Map: 93% Reduce: 30%]0;evidence_query_301016-103445.hql_sj: Map: 96% Reduce: 30%]0;evidence_query_301016-103445.hql_sj: Map: 98% Reduce: 31%]0;evidence_query_301016-103445.hql_sj: Map: 99% Reduce: 31%]0;evidence_query_301016-103445.hql_sj: Map: 99% Reduce: 32%alidated param PRIORITY=VERY_HIGH[0m
+[0;32m30-10-2016_10-34-51 [tlv-mpl9n] [generate_remote_runtime] INFO creating remote runtime script as: /tmp/remote_query_data_2016-10-30_10_34_50/staging_folder//remote_runtime.sh[0m
+[0;32m30-10-2016_10-34-51 [tlv-mpl9n] [execute_e2e_remotely] INFO Successfully validated param RU=csitr[0m
+[0;32m30-10-2016_10-34-51 [tlv-mpl9n] [execute_e2e_remotely] INFO Successfully validated param TM=104.100.166.2[0m
+[0;32m30-10-2016_10-34-51 [tlv-mpl9n] [execute_remotely] INFO Successfully validated param TM=104.100.166.2[0m
+[0;32m30-10-2016_10-34-51 [tlv-mpl9n] [execute_remotely] INFO Exeucting remotely on 104.100.166.2, with temp workspace /ghostcache5/egozlan/remote_query_data/_2016-10-30_10_34_50 and the following parameters:
+ssh command gwsh
+scp command: scp -Sgwsh -C
+remote user csitr
+artifacts_to_copy: /tmp/remote_query_data_2016-10-30_10_34_50/staging_folder/* 
+command: /usr/bin/nohup /ghostcache5/egozlan/remote_query_data/_2016-10-30_10_34_50/remote_runtime.sh[0m
+[0;32m30-10-2016_10-34-51 [tlv-mpl9n] [execute_remotely] INFO Making temp workspace /ghostcache5/egozlan/remote_query_data/_2016-10-30_10_34_50 on remote host 104.100.166.2[0m
+[0;32m30-10-2016_10-34-54 [tlv-mpl9n] [execute_remotely] INFO /ghostcache5/egozlan/remote_query_data/_2016-10-30_10_34_50 Created OK[0m
+[0;32m30-10-2016_10-34-54 [tlv-mpl9n] [execute_remotely] INFO Copying the following artifacts to remote workspace [0m
+[0;32m30-10-2016_10-34-59 [tlv-mpl9n] [execute_remotely] INFO registring the following sigint trap to terminate remote process: remote_pkill gwsh csitr 104.100.166.2 /ghostcache5/egozlan/remote_query_data/_2016-10-30_10_34_50[0m
+[0;32m30-10-2016_10-34-59 [tlv-mpl9n] [execute_remotely] INFO about to execute the following command /usr/bin/nohup /ghostcache5/egozlan/remote_query_data/_2016-10-30_10_34_50/remote_runtime.sh on 104.100.166.2[0m
+Java HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize=512M; support was removed in 8.0
+Java HotSpot(TM) 64-Bit Server VM warning: ignoring option MaxPermSize=512M; support was removed in 8.0
+
+Logging initialized using configuration in file:/tmp/tmpdVk9e3hiveconf/hive-log4j.properties
+Query ID = hdfs_20161030083535_e60f8957-3b34-495b-9be1-31c060ff1141
+Total jobs = 3
+Launching Job 1 out of 3
+Number of reduce tasks not specified. Estimated from input data size: 8
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+
+########################################
+##### YOU CAN EXIT NOW, IF YOU WANT ####
+########################################
+
+Starting Job = job_1475762120547_196690, Tracking URL = http://a10-100-164-37.csi.foo.bar:8088/proxy/application_1475762120547_196690/
+Kill Command = /ghostcache/cloudera/parcels/CDH-5.5.2-1.cdh5.5.2.p0.4/lib/hadoop//bin/hadoop job  -kill job_1475762120547_196690
+Hadoop job information for Stage-1: number of mappers: 33; number of reducers: 8
+2016-10-30 08:35:26,442 Stage-1 map = 0%,  reduce = 0%
+2016-10-30 08:35:30,569 Stage-1 map = 36%,  reduce = 0%, Cumulative CPU 25.06 sec
+2016-10-30 08:35:31,595 Stage-1 map = 82%,  reduce = 0%, Cumulative CPU 104.75 sec
+2016-10-30 08:35:32,624 Stage-1 map = 88%,  reduce = 0%, Cumulative CPU 127.28 sec
+2016-10-30 08:35:33,647 Stage-1 map = 91%,  reduce = 0%, Cumulative CPU 139.11 sec
+2016-10-30 08:35:41,829 Stage-1 map = 91%,  reduce = 30%, Cumulative CPU 262.12 sec
+2016-10-30 08:35:44,887 Stage-1 map = 93%,  reduce = 30%, Cumulative CPU 290.13 sec
+2016-10-30 08:35:47,943 Stage-1 map = 96%,  reduce = 30%, Cumulative CPU 312.36 sec
+2016-10-30 08:35:50,998 Stage-1 map = 98%,  reduce = 31%, Cumulative CPU 324.97 sec
+2016-10-30 08:35:53,034 Stage-1 map = 99%,  reduce = 31%, Cumulative CPU 326.9 sec
+2016-10-30 08:35:54,052 Stage-1 map = 99%,  reduce = 32%, Cumulative CPU 330.99 sec
+2016-10-30 08:35:57,105 Stage-1 map = 100%,  reduce = 33%, Cumula]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 33%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 97%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 100%]0;evidence_query_301016-103445.hql_sj: Map: 0% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 12% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 24% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 29% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 33% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 38% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 46% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 49% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 53% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 60% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 64% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 68% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 70% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 72% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 75% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 76% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 77% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 82% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 84% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 86% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 87% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 90% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 91% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 92% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 95% Reduce: 0%]0;evidence_query_301016-103445.hql_sj: Map: 95% Reduce: 18%]0;evidence_query_301016-103445.hql_sj: Map: 96% Reduce: 30%]0;evidence_query_301016-103445.hql_sj: Map: 98% Reduce: 30%]0;evidence_query_301016-103445.hql_sj: Map: 98% Reduce: 31%]0;evidence_query_301016-103445.hql_sj: Map: 99% Reduce: 32%]0;evidence_query_301016-103445.hql_sj: Map: 99% Reduce: 33%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 33%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 44%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 52%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 62%tive CPU 335.17 sec
+2016-10-30 08:36:00,161 Stage-1 map = 100%,  reduce = 97%, Cumulative CPU 390.06 sec
+2016-10-30 08:36:03,218 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 392.7 sec
+MapReduce Total cumulative CPU time: 6 minutes 32 seconds 700 msec
+Ended Job = job_1475762120547_196690
+Stage-9 is filtered out by condition resolver.
+Stage-2 is selected by condition resolver.
+Launching Job 2 out of 3
+Number of reduce tasks not specified. Estimated from input data size: 10
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1475762120547_196692, Tracking URL = http://a10-100-164-37.csi.foo.bar:8088/proxy/application_1475762120547_196692/
+Kill Command = /ghostcache/cloudera/parcels/CDH-5.5.2-1.cdh5.5.2.p0.4/lib/hadoop//bin/hadoop job  -kill job_1475762120547_196692
+Hadoop job information for Stage-2: number of mappers: 190; number of reducers: 10
+2016-10-30 08:36:20,874 Stage-2 map = 0%,  reduce = 0%
+2016-10-30 08:36:28,399 Stage-2 map = 12%,  reduce = 0%, Cumulative CPU 47.31 sec
+2016-10-30 08:36:29,419 Stage-2 map = 24%,  reduce = 0%, Cumulative CPU 227.79 sec
+2016-10-30 08:36:30,437 Stage-2 map = 29%,  reduce = 0%, Cumulative CPU 332.31 sec
+2016-10-30 08:36:31,455 Stage-2 map = 33%,  reduce = 0%, Cumulative CPU 417.53 sec
+2016-10-30 08:36:32,473 Stage-2 map = 38%,  reduce = 0%, Cumulative CPU 530.94 sec
+2016-10-30 08:36:33,490 Stage-2 map = 46%,  reduce = 0%, Cumulative CPU 2028.73 sec
+2016-10-30 08:36:34,519 Stage-2 map = 49%,  reduce = 0%, Cumulative CPU 2281.02 sec
+2016-10-30 08:36:35,537 Stage-2 map = 53%,  reduce = 0%, Cumulative CPU 2301.27 sec
+2016-10-30 08:36:36,557 Stage-2 map = 60%,  reduce = 0%, Cumulative CPU 2651.65 sec
+2016-10-30 08:36:38,591 Stage-2 map = 64%,  reduce = 0%, Cumulative CPU 2719.14 sec
+2016-10-30 08:36:39,609 Stage-2 map = 68%,  reduce = 0%, Cumulative CPU 3089.68 sec
+2016-10-30 08:36:40,625 Stage-2 map = 70%,  reduce = 0%, Cumulative CPU 3141.44 sec
+2016-10-30 08:36:41,643 Stage-2 map = 72%,  reduce = 0%, Cumulative CPU 3154.0 sec
+2016-10-30 08:36:42,660 Stage-2 map = 75%,  reduce = 0%, Cumulative CPU 3449.73 sec
+2016-10-30 08:36:43,677 Stage-2 map = 76%,  reduce = 0%, Cumulative CPU 3491.46 sec
+2016-10-30 08:36:44,694 Stage-2 map = 77%,  reduce = 0%, Cumulative CPU 3503.43 sec
+2016-10-30 08:36:45,710 Stage-2 map = 82%,  reduce = 0%, Cumulative CPU 3749.53 sec
+2016-10-30 08:36:47,744 Stage-2 map = 84%,  reduce = 0%, Cumulative CPU 3798.32 sec
+2016-10-30 08:36:48,761 Stage-2 map = 86%,  reduce = 0%, Cumulative CPU 3976.97 sec
+2016-10-30 08:36:49,777 Stage-2 map = 87%,  reduce = 0%, Cumulative CPU 3991.64 sec
+2016-10-30 08:36:51,810 Stage-2 map = 90%,  reduce = 0%, Cumulative CPU 4148.06 sec
+2016-10-30 08:36:53,844 Stage-2 map = 91%,  reduce = 0%, Cumulative CPU 4162.29 sec
+2016-10-30 08:36:54,860 Stage-2 map = 92%,  reduce = 0%, Cumulative CPU 4265.68 sec
+2016-10-30 08:36:57,909 Stage-2 map = 95%,  reduce = 0%, Cumulative CPU 4367.03 sec
+2016-10-30 08:36:58,925 Stage-2 map = 95%,  reduce = 18%, Cumulative CPU 4487.77 sec
+2016-10-30 08:36:59,942 Stage-2 map = 96%,  reduce = 30%, Cumulative CPU 4578.13 sec
+2016-10-30 08:37:00,959 Stage-2 map = 98%,  reduce = 30%, Cumulative CPU 4632.48 sec
+2016-10-30 08:37:01,975 Stage-2 map = 98%,  reduce = 31%, Cumulative CPU 4669.31 sec
+2016-10-30 08:37:02,991 Stage-2 map = 99%,  reduce = 32%, Cumulative CPU 4697.28 sec
+2016-10-30 08:37:06,041 Stage-2 map = 99%,  reduce = 33%, Cumulative CPU 4738.59 sec
+2016-10-30 08:37:15,188 Stage-2 map = 100%,  reduce = 33%, Cumulative CPU 4770.44 sec
+2016-10-30 08:37:17,220 Stage-2 map = 100%,  reduce = 44%, Cumulative CPU 4782.84 sec
+2016-10-30 08:37:18,237 Stage-2 map = 100%,  reduce = 52%, Cumulative CPU 4791.41 sec
+2016-10-30 08:37:20,269 Stage-2 map = 100%,  reduce = 62%, Cumulative CPU 4844.01 sec
+2016-10-30 08:37:21,286 Stage-2 map = 100%,  reduce = 68%, Cumu]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 68%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 71%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 72%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 75%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 77%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 80%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 81%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 85%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 89%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 93%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 94%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 96%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 97%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 98%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 99%]0;evidence_query_301016-103445.hql_sj: Map: 100% Reduce: 100%]0;evidence_query_301016-103445.hql_sj: Finishedlative CPU 4877.31 sec
+2016-10-30 08:37:23,321 Stage-2 map = 100%,  reduce = 71%, Cumulative CPU 4902.98 sec
+2016-10-30 08:37:24,337 Stage-2 map = 100%,  reduce = 72%, Cumulative CPU 4914.64 sec
+2016-10-30 08:37:26,371 Stage-2 map = 100%,  reduce = 75%, Cumulative CPU 4943.35 sec
+2016-10-30 08:37:27,387 Stage-2 map = 100%,  reduce = 77%, Cumulative CPU 4954.2 sec
+2016-10-30 08:37:29,418 Stage-2 map = 100%,  reduce = 80%, Cumulative CPU 4982.58 sec
+2016-10-30 08:37:30,435 Stage-2 map = 100%,  reduce = 81%, Cumulative CPU 4985.87 sec
+2016-10-30 08:37:32,466 Stage-2 map = 100%,  reduce = 85%, Cumulative CPU 5016.9 sec
+2016-10-30 08:37:35,515 Stage-2 map = 100%,  reduce = 89%, Cumulative CPU 5048.94 sec
+2016-10-30 08:37:38,562 Stage-2 map = 100%,  reduce = 93%, Cumulative CPU 5082.83 sec
+2016-10-30 08:37:40,594 Stage-2 map = 100%,  reduce = 94%, Cumulative CPU 5087.68 sec
+2016-10-30 08:37:41,611 Stage-2 map = 100%,  reduce = 96%, Cumulative CPU 5145.75 sec
+2016-10-30 08:37:42,627 Stage-2 map = 100%,  reduce = 97%, Cumulative CPU 5146.51 sec
+2016-10-30 08:37:50,764 Stage-2 map = 100%,  reduce = 98%, Cumulative CPU 5167.8 sec
+2016-10-30 08:37:53,823 Stage-2 map = 100%,  reduce = 99%, Cumulative CPU 5200.38 sec
+2016-10-30 08:37:57,885 Stage-2 map = 100%,  reduce = 100%, Cumulative CPU 5232.78 sec
+MapReduce Total cumulative CPU time: 0 days 1 hours 27 minutes 12 seconds 780 msec
+Ended Job = job_1475762120547_196692
+MapReduce Jobs Launched: 
+Stage-Stage-1: Map: 33  Reduce: 8   Cumulative CPU: 393.06 sec   HDFS Read: 490163559 HDFS Write: 480900619 SUCCESS
+Stage-Stage-2: Map: 190  Reduce: 10   Cumulative CPU: 5232.78 sec   HDFS Read: 27581350697 HDFS Write: 3193 SUCCESS
+Total MapReduce CPU Time Spent: 0 days 1 hours 33 minutes 45 seconds 840 msec
+OK
+Time taken: 171.973 seconds, Fetched: 24 row(s)
+Hive exit code is:0
+Query Result SCP syntax --> scp -S gwsh csitr@104.100.166.2:/ghostcache5/egozlan/remote_query_data/_2016-10-30_10_34_50/output.gz
+[0;36m30-10-2016_10-38-01 [tlv-mpl9n] [execute_remotely] WARN Remote Execution return code 0[0m
+[0;32m30-10-2016_10-38-01 [tlv-mpl9n] [finish] INFO [EXIT RETURN CODE]: 0[0m
