@@ -1,3 +1,0 @@
-ip	count_hosts	count_emails	host_collection
-WARN: The method class org.apache.commons.logging.impl.SLF4JLogFactory#release() was invoked.
-WARN: Please see http://www.slf4j.org/codes.html#release for an explanation.
